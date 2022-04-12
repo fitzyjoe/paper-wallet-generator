@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+wrapper {
+    gradleVersion = '7.3'
+}
+
+application {
+    mainClass = 'com.ptcoded.paperwallet.Generator'
+    applicationDefaultJvmArgs = ['-Djdk.sunec.disableNative=false']
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.bouncycastle', name: 'bc-fips', version: '1.0.2.3'
+    implementation group: 'com.google.zxing', name: 'core', version: '3.4.1'
+    implementation group: 'com.google.zxing', name: 'javase', version: '3.4.1'
+    implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.25'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
