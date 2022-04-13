@@ -86,7 +86,7 @@ public class PaperWalletPDFWriter
                 contentStream.endText();
             }
 
-            document.save("test.pdf");
+            document.save("wallet.pdf");
         }
     }
 }
