@@ -11,6 +11,10 @@ At this point it's hard coded to use my included background image (background.pn
 
 When you `gradle run` this project, it will produce a wallet.pdf file.  Subsequent runs will overwrite this file.
 
+The output file will look like this:
+![alt text](https://github.com/fitzyjoe/paper-wallet-generator/blob/main/sample-output.png?raw=true)
+
+
 If you use this code, you bear all the responsibility of risks that can occur with buying, selling and storing bitcoin.
 I am not responsibility for any losses you might experience.
 
