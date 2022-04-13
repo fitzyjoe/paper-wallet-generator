@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class Generator
 {
     // bounds of private key for bitcoin
-    private static final String MAX_PRIVATE_KEY = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141";
+    private static final String MAX_PRIVATE_KEY = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140";
     private static final String MIN_PRIVATE_KEY = "0000000000000000000000000000000000000000000000000000000000000001";
 
     // bitcoin specific bytes
@@ -66,7 +66,7 @@ public class Generator
         {
             sr.nextBytes(key);
         }
-        while (ArrayUtil.bytesToHex(key).compareTo(MAX_PRIVATE_KEY) > 0 && ArrayUtil.bytesToHex(key).compareTo(MIN_PRIVATE_KEY) < 0);
+        while (ArrayUtil.bytesToHex(key).compareTo(MAX_PRIVATE_KEY) >= 0 && ArrayUtil.bytesToHex(key).compareTo(MIN_PRIVATE_KEY) <= 0);
 
         return key;
     }
