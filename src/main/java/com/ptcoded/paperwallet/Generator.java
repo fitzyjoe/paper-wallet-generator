@@ -43,16 +43,16 @@ public class Generator
     public void generatePaperWallet() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, IOException, WriterException
     {
         // private key
-        byte[] privateKey = generatePrivateKey();
-        String privateKeyWIF = convertPrivateKeyToCompressedWIF(privateKey);
+        final var privateKey = generatePrivateKey();
+        final var privateKeyWIF = convertPrivateKeyToWIF(privateKey);
 
         // public key
-        byte[] publicKey = generatePublicKeyCompressed(privateKey);
-        String publicKeyWIF = convertPublicKeyToCompressedWIF(publicKey);
+        final var publicKey = generatePublicKeyCompressed(privateKey);
+        final var addressWIF = convertCompressedPublicKeyToAddress(publicKey);
 
         // make pdf
         final var paperWalletPDFWriter = new PaperWalletPDFWriter();
-        paperWalletPDFWriter.generatePDF(privateKeyWIF, publicKeyWIF);
+        paperWalletPDFWriter.generatePDF(privateKeyWIF, addressWIF);
     }
 
     public static byte[] generatePrivateKey() throws NoSuchAlgorithmException
@@ -71,7 +71,13 @@ public class Generator
         return key;
     }
 
-    private static String convertPrivateKeyToCompressedWIF(byte[] privateKey) throws NoSuchAlgorithmException
+    /**
+     * Converts a raw private key to WIF format.
+     * @param privateKey
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    private static String convertPrivateKeyToWIF(final byte[] privateKey) throws NoSuchAlgorithmException
     {
         final var extendedKey = ArrayUtil.concat(PRIVATE_KEY_PREFIX_ARRAY, privateKey, PRIVATE_KEY_SUFFIX_ARRAY);
         final var sha = MessageDigest.getInstance(FipsSHS.Algorithm.SHA256.getName());
@@ -81,7 +87,15 @@ public class Generator
         return Base58.encode(extendedKeyWithChecksum);
     }
 
-    private static byte[] generatePublicKeyCompressed(byte[] privateKey) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException
+    /**
+     * Given the private key this computes the public key in compressed format (the even/odd prefix and the x coord)
+     *
+     * @param privateKey the raw private key
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidAlgorithmParameterException
+     */
+    private static byte[] generatePublicKeyCompressed(final byte[] privateKey) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException
     {
         final var keyGen = KeyPairGenerator.getInstance("EC", provider);
         final var ecSpec = new ECGenParameterSpec("secp256k1");
@@ -110,7 +124,13 @@ public class Generator
         return publicKeyWithCompressedBit;
     }
 
-    public static String convertPublicKeyToCompressedWIF(byte[] publicKeyWithCompressedBit) throws NoSuchAlgorithmException
+    /**
+     * Converts a public key in compressed format to a bitcoin address in base58.
+     * @param publicKeyWithCompressedBit
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public static String convertCompressedPublicKeyToAddress(final byte[] publicKeyWithCompressedBit) throws NoSuchAlgorithmException
     {
         final var sha = MessageDigest.getInstance(FipsSHS.Algorithm.SHA256.getName());
         final var s1 = sha.digest(publicKeyWithCompressedBit);

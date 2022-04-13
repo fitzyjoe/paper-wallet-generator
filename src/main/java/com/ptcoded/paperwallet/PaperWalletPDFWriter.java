@@ -41,11 +41,11 @@ public class PaperWalletPDFWriter
         return MatrixToImageWriter.toBufferedImage(privateKeyQrMatrix);
     }
 
-    public void generatePDF(String wifpvt, String adr) throws WriterException, IOException
+    public void generatePDF(final String privateKeyWIF, final String addressWIF) throws WriterException, IOException
     {
         // generate qr codes
-        final var privateKeyQrImage = hexToQRImage(wifpvt);
-        final var addressQrImage = hexToQRImage(adr);
+        final var privateKeyQrImage = hexToQRImage(privateKeyWIF);
+        final var addressQrImage = hexToQRImage(addressWIF);
 
         // create the pdf
         try (PDDocument document = new PDDocument())
@@ -77,11 +77,11 @@ public class PaperWalletPDFWriter
                 contentStream.beginText();
                 contentStream.newLineAtOffset(7, 5);
                 contentStream.setFont(PDType1Font.COURIER, 6f);
-                contentStream.showText(adr);
+                contentStream.showText(addressWIF);
 
                 contentStream.newLineAtOffset(405, 0);
                 contentStream.setFont(PDType1Font.COURIER, 6f);
-                contentStream.showText(wifpvt);
+                contentStream.showText(privateKeyWIF);
 
                 contentStream.endText();
             }
