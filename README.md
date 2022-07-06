@@ -16,5 +16,4 @@ The output file will look like this:
 
 
 If you use this code, you bear all the responsibility of risks that can occur with buying, selling and storing bitcoin.
-I am not responsibility for any losses you might experience.
-
+I am not responsible for any losses you might experience.
